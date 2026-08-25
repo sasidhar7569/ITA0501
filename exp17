@@ -1,0 +1,29 @@
+import cv2
+
+# Read the image
+img = cv2.imread("flower.jpg")
+
+# Check if image is loaded
+if img is None:
+    print("Image not found")
+else:
+    # Resize image
+    img = cv2.resize(img, (600, 400))
+
+    # Create a copy of the image
+    watermarked = img.copy()
+
+    # Add watermark text
+    cv2.putText(watermarked, "SAVEETHA", (180, 200),
+                cv2.FONT_HERSHEY_SIMPLEX, 1,
+                (255, 255, 255), 2)
+
+    # Display images
+    cv2.imshow("Original Image", img)
+    cv2.imshow("Watermarked Image", watermarked)
+
+    # Save the watermarked image
+    cv2.imwrite("watermarked_image.jpg", watermarked)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
