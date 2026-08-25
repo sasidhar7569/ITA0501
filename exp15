@@ -1,0 +1,33 @@
+import cv2
+import numpy as np
+
+# Read the image
+img = cv2.imread("flower.jpg")
+
+# Check if image is loaded
+if img is None:
+    print("Image not found")
+else:
+    # Resize image
+    img = cv2.resize(img, (600, 400))
+
+    # Convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Convert to float32
+    gray = np.float32(gray)
+
+    # Apply Harris Corner Detection
+    corners = cv2.cornerHarris(gray, 2, 3, 0.04)
+
+    # Dilate the corners
+    corners = cv2.dilate(corners, None)
+
+    # Mark corners in red
+    img[corners > 0.01 * corners.max()] = [0, 0, 255]
+
+    # Display image
+    cv2.imshow("Harris Corner Detection", img)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
