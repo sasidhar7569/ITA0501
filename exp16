@@ -1,0 +1,35 @@
+import cv2
+import numpy as np
+
+# Read the image
+img = cv2.imread("flower.jpg")
+
+# Check if image is loaded
+if img is None:
+    print("Image not found")
+else:
+    # Resize image
+    img = cv2.resize(img, (600, 400))
+
+    # Convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Apply Sobel filter
+    sobel_x = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+    sobel_y = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+
+    # Convert gradients to absolute values
+    sobel_x = cv2.convertScaleAbs(sobel_x)
+    sobel_y = cv2.convertScaleAbs(sobel_y)
+
+    # Combine X and Y edges
+    sobel = cv2.addWeighted(sobel_x, 0.5, sobel_y, 0.5, 0)
+
+    # Display images
+    cv2.imshow("Original Image", img)
+    cv2.imshow("Sobel X", sobel_x)
+    cv2.imshow("Sobel Y", sobel_y)
+    cv2.imshow("Sobel Combined", sobel)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
